@@ -1,11 +1,10 @@
+require 'class'
+local Game = require 'game'
 
 local game = nil
 
 function love.load()
-    game = {
-        update = function() end,
-        draw = function() end
-    }
+    game = new(Game)()
 end
 
 function love.update(dt)
