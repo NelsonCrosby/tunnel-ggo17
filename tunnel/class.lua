@@ -2,16 +2,18 @@
 new = {}
 
 -- Implements new(), which returns the constructor for cls
-local function __call(_, cls)
-    return cls[__call]
+local function new_call(_, cls)
+    return cls[new_call]
 end
+
+new.__call = new_call
 
 -- Create a new class, using arguments as mixins
 local function new_class(cls, parents)
     cls.__index = cls
 
     -- The default constructor
-    cls[__call] = function (...)
+    cls[new_call] = function (...)
        local o = {}
        setmetatable(o, cls)
        if type(o.init) == 'function' then
@@ -32,7 +34,7 @@ function new.class(...)
     return new_class({}, {...})
 end
 
-setmetatable(new, {__call = __call})
+setmetatable(new, new)
 
 if class_commons ~= false and common == nil then
     common = {}
